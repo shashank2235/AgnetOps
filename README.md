@@ -59,7 +59,7 @@ flowchart LR
 
 ## Dashboard Preview
 
-![TetherOps Runtime Dashboard](docs/assets/dashboard.png)
+![TetherOps Runtime Dashboard](https://raw.githubusercontent.com/shashank2235/AgnetOps/main/docs/assets/dashboard.png)
 
 ## Folder Structure
 
