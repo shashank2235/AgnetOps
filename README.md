@@ -2,7 +2,7 @@
 
 ![CI](https://img.shields.io/badge/CI-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
-![Release](https://img.shields.io/badge/release-v0.1.0-orange)
+![Release](https://img.shields.io/badge/release-v0.1.1-orange)
 
 Enterprise-grade runtime for reliable AI agents with first-class disaster recovery, replay, and human-in-the-loop governance.
 
