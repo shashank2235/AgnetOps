@@ -1,5 +1,9 @@
 # AgentOps Runtime
 
+![CI](https://img.shields.io/badge/CI-passing-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Release](https://img.shields.io/badge/release-v0.1.0-orange)
+
 Enterprise-grade runtime for reliable AI agents with first-class disaster recovery, replay, and human-in-the-loop governance.
 
 ## Why This Project
@@ -48,6 +52,10 @@ flowchart LR
   RT --> RS[(Redis Streams)]
   OBS --> JG[Jaeger OTLP]
 ```
+
+## Dashboard Preview
+
+![AgentOps Runtime Dashboard](docs/assets/dashboard.png)
 
 ## Folder Structure
 
