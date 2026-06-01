@@ -25,10 +25,26 @@ export function RunPanel({ onCreated }: Props) {
   }
 
   return (
-    <section className="card">
-      <h2>Run Medical Agent</h2>
-      <textarea value={query} onChange={(e) => setQuery(e.target.value)} rows={4} />
-      <button onClick={submit} disabled={loading}>{loading ? "Running..." : "Start Run"}</button>
+    <section className="card panel-card composer-card">
+      <div className="section-heading">
+        <div>
+          <span className="eyebrow">Workflow Launch</span>
+          <h2>Run Medical Agent</h2>
+        </div>
+        <span className="soft-pill">LangGraph workflow</span>
+      </div>
+
+      <p className="composer-copy">
+        Submit a medical policy question to simulate retrieval, knowledge graph enrichment,
+        guardrails, approvals, and recovery-aware orchestration.
+      </p>
+
+      <textarea value={query} onChange={(e) => setQuery(e.target.value)} rows={5} />
+
+      <div className="composer-actions">
+        <button onClick={submit} disabled={loading}>{loading ? "Running..." : "Start Run"}</button>
+        <span className="helper-text">High-risk prompts will route into human approval automatically.</span>
+      </div>
     </section>
   );
 }
