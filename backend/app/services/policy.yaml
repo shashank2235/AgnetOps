@@ -1,0 +1,15 @@
+policies:
+  prompt_injection:
+    keywords: ["ignore previous", "system prompt", "jailbreak"]
+    action: block
+    severity: high
+  pii:
+    patterns: ["ssn", "social security", "credit card", "patient id"]
+    action: warn
+    severity: medium
+  unsafe_domains:
+    medical_keywords: ["prescribe", "dosage", "diagnosis"]
+    legal_keywords: ["legal advice", "lawsuit"]
+    financial_keywords: ["investment advice", "guaranteed return"]
+    action: human_approval
+    severity: high
