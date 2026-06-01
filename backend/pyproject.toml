@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sentinelai-backend"
+name = "tetherops-backend"
 version = "0.1.1"
-description = "SentinelAI — Enterprise agent reliability platform with guardrails, checkpoint recovery, human-in-the-loop governance, and OpenTelemetry-first observability"
+description = "TetherOps — Enterprise agent reliability platform with guardrails, checkpoint recovery, human-in-the-loop governance, and OpenTelemetry-first observability"
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.115.0",

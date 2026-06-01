@@ -1,4 +1,4 @@
-# SentinelAI — Agent Reliability Platform
+# TetherOps — Agent Reliability Platform
 
 ![CI](https://img.shields.io/badge/CI-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -7,11 +7,11 @@
 
 > **Guardrails, recovery, and observability for production AI agents.**
 
-SentinelAI is an enterprise-grade runtime that keeps your AI agents safe and reliable in production — with automatic checkpointing, disaster recovery, human-in-the-loop governance, and full OpenTelemetry traceability.
+TetherOps is an enterprise-grade runtime that keeps your AI agents safe and reliable in production — with automatic checkpointing, disaster recovery, human-in-the-loop governance, and full OpenTelemetry traceability.
 
-## Why SentinelAI?
+## Why TetherOps?
 
-| Problem | SentinelAI Solution |
+| Problem | TetherOps Solution |
 |---------|-------------------|
 | Agent crashes mid-run | Checkpoint every step; resume from last safe state |
 | Bad LLM output reaches users | Policy-based guardrails block unsafe / off-domain responses |
@@ -41,7 +41,7 @@ SentinelAI is an enterprise-grade runtime that keeps your AI agents safe and rel
 
 ```mermaid
 flowchart LR
-  UI[React Dashboard] --> API[FastAPI SentinelAI API]
+  UI[React Dashboard] --> API[FastAPI TetherOps API]
   API --> RT[Agent Runtime LangGraph]
   RT --> CP[Checkpoint Service]
   RT --> GR[Guardrails Service]
@@ -59,7 +59,7 @@ flowchart LR
 
 ## Dashboard Preview
 
-![SentinelAI Runtime Dashboard](docs/assets/dashboard.png)
+![TetherOps Runtime Dashboard](docs/assets/dashboard.png)
 
 ## Folder Structure
 
@@ -134,7 +134,7 @@ cp .env.example .env
 docker compose up --build
 ```
 
-This launches 7 services: PostgreSQL, Redis, Qdrant, Neo4j, Jaeger, the SentinelAI backend, and the React dashboard.  
+This launches 7 services: PostgreSQL, Redis, Qdrant, Neo4j, Jaeger, the TetherOps backend, and the React dashboard.  
 A dedicated `recovery-worker` container also starts to consume Redis Stream events for retry, rollback, and replay jobs.
 
 ### 3 — Open services
@@ -148,7 +148,7 @@ A dedicated `recovery-worker` container also starts to consume Redis Stream even
 
 ## Sample Workflow: Medical Document Review Agent
 
-This built-in workflow demonstrates SentinelAI's full capability chain:
+This built-in workflow demonstrates TetherOps's full capability chain:
 
 1. User submits a medical policy question via the dashboard or API
 2. Runtime retrieves semantically relevant context chunks from Qdrant
@@ -236,4 +236,4 @@ Please report vulnerabilities via [SECURITY.md](SECURITY.md). Do not open public
 
 ## License
 
-[MIT](LICENSE) © SentinelAI Contributors
+[MIT](LICENSE) © TetherOps Contributors
