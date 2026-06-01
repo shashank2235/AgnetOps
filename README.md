@@ -1,43 +1,47 @@
-# AgentOps Runtime
+# SentinelAI — Agent Reliability Platform
 
 ![CI](https://img.shields.io/badge/CI-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Release](https://img.shields.io/badge/release-v0.1.1-orange)
+![Stack](https://img.shields.io/badge/stack-FastAPI%20%7C%20LangGraph%20%7C%20React-informational)
 
-Enterprise-grade runtime for reliable AI agents with first-class disaster recovery, replay, and human-in-the-loop governance.
+> **Guardrails, recovery, and observability for production AI agents.**
 
-## Why This Project
+SentinelAI is an enterprise-grade runtime that keeps your AI agents safe and reliable in production — with automatic checkpointing, disaster recovery, human-in-the-loop governance, and full OpenTelemetry traceability.
 
-- Built for production incidents, not only happy paths
-- Replay and rollback from checkpoint with root-cause traceability
-- Hybrid memory architecture: vector context and knowledge graph context
-- Guardrails plus approval workflows for regulated domains
-- OpenTelemetry-first design for debuggability and auditability
+## Why SentinelAI?
+
+| Problem | SentinelAI Solution |
+|---------|-------------------|
+| Agent crashes mid-run | Checkpoint every step; resume from last safe state |
+| Bad LLM output reaches users | Policy-based guardrails block unsafe / off-domain responses |
+| Regulated domain (medical, legal, finance) | Human approval gate before response is sent |
+| Hard to debug agent failures | OpenTelemetry traces exported to Jaeger, full audit log |
+| Context lost between runs | Hybrid memory: Qdrant (vector) + Neo4j (knowledge graph) |
+| No quality signal on outputs | Evaluation service scores groundedness, relevance, precision |
 
 ## Open Source Quality
 
-- MIT License
-- Contributing guide
-- Security policy
-- Code of conduct
+- MIT License — free to use in commercial products
+- Contributing guide, Security policy, Code of conduct
 - Issue and PR templates
-- CI workflow for backend tests and frontend build
-- Dependabot updates
+- CI workflow: backend tests + frontend build on every push
+- Dependabot for automatic dependency updates
 
-Production-grade open-source AgentOps platform focused on enterprise agent reliability:
-- Agent disaster recovery
-- Replay from checkpoint
-- Human-in-the-loop recovery
-- AI incident root cause analysis
-- Enterprise guardrails
-- OpenTelemetry-first tracing
-- Hybrid memory with Knowledge Graph + Vector DB
+**Core capabilities:**
+- Agent disaster recovery (retry / rollback / replay)
+- Step-level checkpoint persistence and resume
+- Human-in-the-loop approval workflows
+- AI incident root-cause analysis
+- Policy-based guardrails (YAML-driven)
+- OpenTelemetry-first distributed tracing
+- Hybrid memory: Knowledge Graph (Neo4j) + Vector DB (Qdrant)
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  UI[React Dashboard] --> API[FastAPI AgentOps API]
+  UI[React Dashboard] --> API[FastAPI SentinelAI API]
   API --> RT[Agent Runtime LangGraph]
   RT --> CP[Checkpoint Service]
   RT --> GR[Guardrails Service]
@@ -55,7 +59,7 @@ flowchart LR
 
 ## Dashboard Preview
 
-![AgentOps Runtime Dashboard](docs/assets/dashboard.png)
+![SentinelAI Runtime Dashboard](docs/assets/dashboard.png)
 
 ## Folder Structure
 
@@ -112,50 +116,69 @@ flowchart LR
 
 ## Quick Start
 
-1. Copy env file:
+### Prerequisites
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+- An [OpenAI API key](https://platform.openai.com/account/api-keys) (or Azure OpenAI equivalent)
+
+### 1 — Configure environment
+
 ```bash
 cp .env.example .env
+# Open .env and set LLM_API_KEY to your real OpenAI key
 ```
 
-2. Start stack:
+### 2 — Start the full stack
+
 ```bash
 docker compose up --build
 ```
 
-This starts a dedicated `recovery-worker` that consumes Redis Stream events for retry, rollback, and replay jobs.
+This launches 7 services: PostgreSQL, Redis, Qdrant, Neo4j, Jaeger, the SentinelAI backend, and the React dashboard.  
+A dedicated `recovery-worker` container also starts to consume Redis Stream events for retry, rollback, and replay jobs.
 
-3. Open services:
-- Backend API: http://localhost:8000/docs
-- Frontend: http://localhost:5173
-- Jaeger: http://localhost:16686
-- Neo4j: http://localhost:7474
+### 3 — Open services
+
+| Service | URL |
+|---------|-----|
+| **Dashboard UI** | http://localhost:5173 |
+| **API docs (Swagger)** | http://localhost:8000/docs |
+| **Jaeger traces** | http://localhost:16686 |
+| **Neo4j browser** | http://localhost:7474 |
 
 ## Sample Workflow: Medical Document Review Agent
 
-1. User submits medical policy question
-2. Runtime retrieves context chunks (Qdrant facade)
-3. Runtime queries related entities (Neo4j facade)
-4. Guardrail checks unsafe medical claims
-5. Risky outputs are routed to human approval
-6. Approved response is returned with citations
-7. Evaluation scores are computed
-8. OTel traces are exported to Jaeger
+This built-in workflow demonstrates SentinelAI's full capability chain:
+
+1. User submits a medical policy question via the dashboard or API
+2. Runtime retrieves semantically relevant context chunks from Qdrant
+3. Runtime queries related entities from Neo4j knowledge graph
+4. Guardrail evaluates the query against `policy.yaml` (unsafe medical claims, PII, prompt injection)
+5. High-risk outputs are routed to the **human approval queue** — pausing execution
+6. Reviewer approves / rejects / edits the response via the Approvals API
+7. Approved response is returned to the user with citations
+8. Evaluation service scores groundedness, relevance, and precision
+9. Full OpenTelemetry trace is exported to Jaeger for audit
 
 ## Sample API Requests
 
-Run an agent:
+**Run an agent:**
 ```bash
 curl -X POST http://localhost:8000/api/v1/agents/run \
   -H "Content-Type: application/json" \
-  -d '{"workflow_id":"medical_document_review","agent_name":"Medical Document Review Agent","query":"Can you prescribe dosage for this patient?"}'
+  -d '{
+    "workflow_id": "medical_document_review",
+    "agent_name": "Medical Document Review Agent",
+    "query": "Can you prescribe dosage for this patient?"
+  }'
 ```
 
-List approvals:
+**List pending approvals:**
 ```bash
 curl http://localhost:8000/api/v1/approvals
 ```
 
-Approve task:
+**Approve a task:**
 ```bash
 curl -X POST http://localhost:8000/api/v1/approvals/<approval_id>/approve \
   -H "Content-Type: application/json" \
@@ -199,4 +222,18 @@ Tables:
 6. Policy DSL with versioned rollout and canary guardrails
 7. Kubernetes Helm chart with HPA, PDB, and secrets integration
 
-See the expanded roadmap in docs/ROADMAP.md.
+See the full roadmap in [docs/ROADMAP.md](docs/ROADMAP.md).
+
+---
+
+## Contributing
+
+We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) and follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Security
+
+Please report vulnerabilities via [SECURITY.md](SECURITY.md). Do not open public issues for security bugs.
+
+## License
+
+[MIT](LICENSE) © SentinelAI Contributors

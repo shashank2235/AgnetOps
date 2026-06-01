@@ -1,3 +1,5 @@
+# SentinelAI — Agent Reliability Platform
+# Full stack: PostgreSQL · Redis · Qdrant · Neo4j · Jaeger · Backend · Recovery Worker · Frontend
 version: "3.9"
 
 services:

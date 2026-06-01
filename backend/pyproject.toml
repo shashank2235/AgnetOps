@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agentops-runtime-backend"
-version = "0.1.0"
-description = "Enterprise AgentOps Runtime backend"
+name = "sentinelai-backend"
+version = "0.1.1"
+description = "SentinelAI — Enterprise agent reliability platform with guardrails, checkpoint recovery, human-in-the-loop governance, and OpenTelemetry-first observability"
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.115.0",
